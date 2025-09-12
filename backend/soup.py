@@ -43,45 +43,45 @@ def soupSolver(soup, words, size=14):
                 word_state[word] = True
                 break
 
-    word_len = len(word)
-    for row in range(size_NxN):
-        for col in range(size_NxN):
-            if soup_matrix[row][col] == word[0]:  # Check if first character of word in cell
-                for d in range(word_len): # Check diagonally top-left to bottom-right
-                    if (row + d) >= size_NxN or (col + d) >= size_NxN: # Out of bounds
+        word_len = len(word)
+        for row in range(size_NxN):
+            for col in range(size_NxN):
+                if soup_matrix[row][col] == word[0]:  # Check if first character of word in cell
+                    for d in range(word_len): # Check diagonally top-left to bottom-right
+                        if (row + d) >= size_NxN or (col + d) >= size_NxN: # Out of bounds
+                            break
+                        elif word[d] != soup_matrix[row + d][col + d]:
+                            break
+                        if d == word_len - 1:
+                            word_state[word] = True
+                    if word_state[word]: # Break if word found
                         break
-                    elif word[d] != soup_matrix[row + d][col + d]:
+                    for d in range(word_len): # Check diagonally top-right to bottom-left
+                        if (row + d) >= size_NxN or (col - d) < 1: # Out of bounds
+                            break
+                        elif word[d] != soup_matrix[row + d][col - d]:
+                            break
+                        if d == word_len - 1:
+                            word_state[word] = True
+                    if word_state[word]:
                         break
-                    if d == word_len - 1:
-                        word_state[word] = True
-                if word_state[word]: # Break if word found
-                    break
-                for d in range(word_len): # Check diagonally top-right to bottom-left
-                    if (row + d) >= size_NxN or (col - d) < 1: # Out of bounds
+                    for d in range(word_len): # Check diagonally bottom-left to top-right
+                        if (row - d) < 1 or (col + d) >= size_NxN: # Out of bounds
+                            break
+                        elif word[d] != soup_matrix[row - d][col + d]:
+                            break
+                        if d == word_len - 1:
+                            word_state[word] = True
+                    if word_state[word]:
                         break
-                    elif word[d] != soup_matrix[row + d][col - d]:
+                    for d in range(word_len): # Check diagonally bottom-right to top-left
+                        if (row - d) < 1 or (col - d) < 1: # Out of bounds
+                            break
+                        elif word[d] != soup_matrix[row - d][col - d]:
+                            break
+                        if d == word_len - 1:
+                            word_state[word] = True
+                    if word_state[word]:
                         break
-                    if d == word_len - 1:
-                        word_state[word] = True
-                if word_state[word]:
-                    break
-                for d in range(word_len): # Check diagonally bottom-left to top-right
-                    if (row - d) < 1 or (col + d) >= size_NxN: # Out of bounds
-                        break
-                    elif word[d] != soup_matrix[row - d][col + d]:
-                        break
-                    if d == word_len - 1:
-                        word_state[word] = True
-                if word_state[word]:
-                    break
-                for d in range(word_len): # Check diagonally bottom-right to top-left
-                    if (row - d) < 1 or (col - d) < 1: # Out of bounds
-                        break
-                    elif word[d] != soup_matrix[row - d][col - d]:
-                        break
-                    if d == word_len - 1:
-                        word_state[word] = True
-                if word_state[word]:
-                    break
 
     return word_state
