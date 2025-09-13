@@ -21,7 +21,12 @@ def main(request: Request):
 @app.post("/", response_class=HTMLResponse)
 def solver(request: Request, words: str = Form(...), soup: str = Form(...)):
 
-    soup = soup.replace("\r\n", " ")
+    if not words or not soup:
+        error = "Llena todos los campos"
+        return templates.TemplateResponse("index.html", {"request": request, "error": error, "soup": soup, "words": words})
+
+    soup = soup.replace("\r\n", " ").upper()
+    words = words.upper()
     wordsFound = soupSolver(soup, words)
 
     return templates.TemplateResponse("index.html", {"request": request, "wordsFound": wordsFound})

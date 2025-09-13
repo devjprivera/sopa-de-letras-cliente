@@ -12,14 +12,19 @@
         <div id="solve-div" class="d-flex justify-content-around">
             <div id="soup-form">
                 <form action="/" method="post">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     <div class="form-group">
                         <label for="words">Palabras a Buscar</label>
-                        <input type="text" class="form-control" id="words" name="words" placeholder="Ingrese palabras a buscar">
+                        <input type="text" class="form-control" id="words" name="words" placeholder="Ingrese palabras a buscar" value="{{words}}">
                         <small id="wordHelp" class="form-text text-muted">Ingresa lista de palabras. Por ejemplo: casa, trabajo, perro. </small>
                     </div>
                     <div class="form-group">
                         <label for="soup">Sopa de Letras</label>
-                        <textarea id="soup" name="soup" class="form-control" aria-describedby="soupHelp" rows="14" cols="14"></textarea>
+                        <textarea id="soup" name="soup" class="form-control" aria-describedby="soupHelp" rows="14" cols="14">{{ soup }}</textarea>
                         <small id="soupHelp" class="form-text text-muted">El tamaño de la sopa de letras debe ser de 14 filas por 14 columnas </small>
                     </div>
                     <button id="search" type="submit" class="btn btn-primary" onclick="search">Submit</button>
