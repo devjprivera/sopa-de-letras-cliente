@@ -15,22 +15,16 @@ BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
 TEMPLATES_DIR = path.join(BASE_DIR, "frontend", "templates")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
-STATIC_DIR = path.join(BASE_DIR, "frontend", "static")
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
 # Shows Main Page
 @app.get("/", response_class=HTMLResponse)
 def main(request: Request):
 
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/")
+@app.post("/", response_class=HTMLResponse)
 def solver(request: Request, words: str = Form(...), soup: str = Form(...)):
 
-    # wordsFound = soupSolver(soup.soup, soup.words, soup.size)
-    # wordsFound = {
-    #     "words": soup.words,
-    #     "soup": soup.soup,
-    # }
+    soup = soup.replace("\r\n", " ")
+    wordsFound = soupSolver(soup, words)
 
-    return {"words": words, "soup": soup}
+    return templates.TemplateResponse("index.html", {"request": request, "wordsFound": wordsFound})
